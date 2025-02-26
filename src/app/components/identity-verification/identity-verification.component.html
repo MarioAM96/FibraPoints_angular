@@ -13,16 +13,16 @@
             </span>
           </p>
         </div>
-  
-        <div class="search-card">
+
+        <div *ngIf="!showVerification" class="search-card">
           <div class="input-section">
             <p-floatlabel variant="on">
-              <p-inputnumber 
-                [(ngModel)]="value3" 
+                <p-inputnumber 
+                [(ngModel)]="cedula" 
                 inputId="on_label" 
-                mode="currency" 
-                currency="USD" 
-                locale="en-US"
+                [maxlength]="13"
+                [useGrouping]="false"
+                (onInput)="onInputChange($event)"
                 class="custom-input" />
               <label for="on_label">Número de Cédula</label>
             </p-floatlabel>
@@ -32,9 +32,43 @@
             <p-button 
               label="Consultar" 
               icon="pi pi-check" 
-              [loading]="loading" 
-              (onClick)="load()"
-              class="search-button" />
+              [loading]="loading"
+              [disabled]="!cedula || cedula.toString().length < 10"
+              (onClick)="load()" />
+          </div>
+        </div>
+  
+        <!-- Sección de verificación -->
+        <div *ngIf="showVerification" class="verification-section">
+          <h3>Verificación de código</h3>
+          <p class="verification-text">
+            Se ha enviado un código de verificación al correo
+            <span class="email-mask">{{maskedEmail}}</span>
+          </p>
+          
+          <div class="code-inputs">
+            <input *ngFor="let i of [0,1,2,3,4,5]" 
+                   type="text" 
+                   maxlength="1"
+                   [(ngModel)]="codeDigits[i]"
+                   (input)="onCodeInput($event, i)"
+                   class="code-digit">
+          </div>
+  
+          <div class="resend-section">
+            <button class="resend-button" 
+                    (click)="resendCode()"
+                    [disabled]="loading">
+              Reenviar
+            </button>
+          </div>
+  
+          <div class="verify-button-section">
+            <p-button 
+              label="Verificar código" 
+              (onClick)="verifyCode()"
+              [loading]="loading"
+              [disabled]="!isCodeComplete()" />
           </div>
         </div>
       </div>

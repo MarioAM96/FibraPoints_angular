@@ -11,8 +11,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getProyects(): Observable<any> {
-    return this.http.get(this.apiUrl + 'get-keys');
+  getCode(payload: any): Observable<any> {
+    return this.http.post(this.apiUrl + 'obtener-codigo-fibrapoints', payload);
   }
 
 
