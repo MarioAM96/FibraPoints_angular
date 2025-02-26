@@ -1,0 +1,42 @@
+<div class="main-container">
+    <div class="content-wrapper">
+      <div class="card-container">
+        <h2 class="title">FibraPoints</h2>
+        
+        <div class="welcome-section">
+          <p class="welcome-text">
+            ¡Bienvenido al programa de recompensas de Fibramax! 
+            <span class="welcome-description">
+              Descubre los beneficios exclusivos que tenemos para ti. 
+              Consulta tus puntos acumulados ingresando tu número de cédula y comienza 
+              a disfrutar de increíbles recompensas.
+            </span>
+          </p>
+        </div>
+  
+        <div class="search-card">
+          <div class="input-section">
+            <p-floatlabel variant="on">
+              <p-inputnumber 
+                [(ngModel)]="value3" 
+                inputId="on_label" 
+                mode="currency" 
+                currency="USD" 
+                locale="en-US"
+                class="custom-input" />
+              <label for="on_label">Número de Cédula</label>
+            </p-floatlabel>
+          </div>
+          
+          <div class="button-section">
+            <p-button 
+              label="Consultar" 
+              icon="pi pi-check" 
+              [loading]="loading" 
+              (onClick)="load()"
+              class="search-button" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
