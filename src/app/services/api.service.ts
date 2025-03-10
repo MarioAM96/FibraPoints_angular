@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://api.tvmax.ec/api/';
+  //private apiUrl = 'https://api.tvmax.ec/api/';
+  private apiUrl = 'http://127.0.0.1:8000/api/';
 
   constructor(private http: HttpClient) {}
 
@@ -15,5 +16,12 @@ export class ApiService {
     return this.http.post(this.apiUrl + 'obtener-codigo-fibrapoints', payload);
   }
 
+  verifyCode(payload: any): Observable<any> {
+    return this.http.post(this.apiUrl + 'verificar-codigo-fibrapoints', payload);
+  }
+
+  getProducts(): Observable<any> {
+    return this.http.get(this.apiUrl + 'get-activeproducts/27');
+  }
 
 }

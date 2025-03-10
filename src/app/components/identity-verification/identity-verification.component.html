@@ -1,76 +1,191 @@
 <div class="main-container">
-    <div class="content-wrapper">
-      <div class="card-container">
-        <h2 class="title">FibraPoints</h2>
+  <div class="content-wrapper">
+    <div class="card-container">
+      <h2 class="title">FibraPoints</h2>
+
+      <!-- Información del cliente seleccionada, visible en todo momento -->
+      <div *ngIf="selectedClient" class="client-info">
+        <p>Nombre del Cliente: {{ selectedClient.nombre_cliente }}</p>
+        <p>Puntos disponibles: {{ selectedClient.max_actualpoints }}</p>
+      </div>
+
+      <!-- Sección de bienvenida -->
+      <div class="welcome-section" *ngIf="!isVerified">
+        <p class="welcome-text">
+          ¡Bienvenido al programa de recompensas de Fibramax! 
+          <span class="welcome-description">
+            Descubre los beneficios exclusivos que tenemos para ti. 
+            Consulta tus puntos acumulados ingresando tu número de cédula y comienza 
+            a disfrutar de increíbles recompensas.
+          </span>
+        </p>
+      </div>
+
+      <!-- Sección de búsqueda -->
+      <div *ngIf="!showVerification && !isVerified" class="search-card">
+        <div class="input-section">
+          <p-floatlabel variant="on">
+            <p-inputnumber 
+              [(ngModel)]="cedula" 
+              inputId="on_label" 
+              [maxlength]="13"
+              [useGrouping]="false"
+              (onInput)="onInputChange($event)"
+              class="custom-input" />
+            <label for="on_label">Número de Cédula</label>
+          </p-floatlabel>
+        </div>
         
-        <div class="welcome-section">
-          <p class="welcome-text">
-            ¡Bienvenido al programa de recompensas de Fibramax! 
-            <span class="welcome-description">
-              Descubre los beneficios exclusivos que tenemos para ti. 
-              Consulta tus puntos acumulados ingresando tu número de cédula y comienza 
-              a disfrutar de increíbles recompensas.
-            </span>
-          </p>
+        <div class="button-section">
+          <p-button 
+            label="Consultar" 
+            icon="pi pi-check" 
+            [loading]="loading"
+            [disabled]="!cedula || cedula.toString().length < 10"
+            (onClick)="load()" />
+        </div>
+      </div>
+
+      <!-- Sección de verificación -->
+      <div *ngIf="showVerification && !isVerified" class="verification-section">
+        <h3>Verificación de código</h3>
+        <p class="verification-text">
+          Se ha enviado un código de verificación al correo
+          <span class="email-mask">{{maskedEmail}}</span>
+        </p>
+        
+        <div class="code-inputs">
+          <input *ngFor="let i of [0,1,2,3,4,5]" 
+                 type="text" 
+                 maxlength="1"
+                 [(ngModel)]="codeDigits[i]"
+                 (input)="onCodeInput($event, i)"
+                 class="code-digit">
         </div>
 
-        <div *ngIf="!showVerification" class="search-card">
-          <div class="input-section">
-            <p-floatlabel variant="on">
-                <p-inputnumber 
-                [(ngModel)]="cedula" 
-                inputId="on_label" 
-                [maxlength]="13"
-                [useGrouping]="false"
-                (onInput)="onInputChange($event)"
-                class="custom-input" />
-              <label for="on_label">Número de Cédula</label>
-            </p-floatlabel>
-          </div>
-          
-          <div class="button-section">
-            <p-button 
-              label="Consultar" 
-              icon="pi pi-check" 
-              [loading]="loading"
-              [disabled]="!cedula || cedula.toString().length < 10"
-              (onClick)="load()" />
-          </div>
+        <div class="resend-section">
+          <button class="resend-button" 
+                  (click)="resendCode()"
+                  [disabled]="loading">
+            Reenviar
+          </button>
         </div>
-  
-        <!-- Sección de verificación -->
-        <div *ngIf="showVerification" class="verification-section">
-          <h3>Verificación de código</h3>
-          <p class="verification-text">
-            Se ha enviado un código de verificación al correo
-            <span class="email-mask">{{maskedEmail}}</span>
-          </p>
-          
-          <div class="code-inputs">
-            <input *ngFor="let i of [0,1,2,3,4,5]" 
-                   type="text" 
-                   maxlength="1"
-                   [(ngModel)]="codeDigits[i]"
-                   (input)="onCodeInput($event, i)"
-                   class="code-digit">
-          </div>
-  
-          <div class="resend-section">
-            <button class="resend-button" 
-                    (click)="resendCode()"
-                    [disabled]="loading">
-              Reenviar
-            </button>
-          </div>
-  
-          <div class="verify-button-section">
-            <p-button 
-              label="Verificar código" 
-              (onClick)="verifyCode()"
-              [loading]="loading"
-              [disabled]="!isCodeComplete()" />
-          </div>
+
+        <div class="verify-button-section">
+          <p-button 
+            label="Verificar código" 
+            (onClick)="verifyCode()"
+            [loading]="loading"
+            [disabled]="!isCodeComplete()" />
         </div>
+      </div>
+
+      <!-- Stepper de PrimeNG -->
+      <div *ngIf="isVerified" class="card flex justify-center">
+        <p-stepper [value]="currentStep" class="basis-[50rem]">
+          <p-step-list>
+            <p-step [value]="1">Puntos y Contrato</p-step>
+            <p-step [value]="2">Selecciona tu premio</p-step>
+            <p-step [value]="3">Acepta los terminos y condiciones</p-step>
+          </p-step-list>
+          <p-step-panels>
+            <p-step-panel [value]="1">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
+                  >
+                    <label for="direccion">Selecciona una dirección:</label>
+                    <select id="direccion" [(ngModel)]="selectedAddress" (change)="onAddressChange()">
+                      <option *ngFor="let item of clientData" [value]="item.direccion">No. Contrato: {{item.contrato}} - Sector: {{item.direccion}} - Puntos: {{ item.max_actualpoints }}</option>
+                    </select>
+                  </div>
+                  <div class="flex pt-6 justify-end">
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="onStepActivate(2); activateCallback(2)" />
+                  </div>
+                </div>
+              </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="2">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
+                  >
+                    <!-- Información de depuración -->
+                    <div class="text-center">
+                      <p>Información de depuración:</p>
+                      <p>Cargando Productos: {{ loadingProducts }}</p>
+                      <p>Total de Productos: {{ products.length }}</p>
+                    </div>
+            
+                    <!-- Carga de productos -->
+                    <div *ngIf="loadingProducts" class="text-center">
+                      <p>Cargando productos...</p>
+                    </div>
+                    
+                    <div *ngIf="!loadingProducts && products.length === 0" class="text-center">
+                      <p>No hay productos disponibles.</p>
+                    </div>
+                    
+                    <div *ngIf="!loadingProducts && products.length > 0" class="w-full">
+                      <table class="w-full">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Puntos</th>
+                            <th>Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let product of products">
+                            <td>{{ product.nombre_causal }}</td>
+                            <td>{{ product.puntos }}</td>
+                            <td>
+                              <button 
+                                (click)="selectProduct(product)"
+                                class="p-button p-button-primary"
+                              >
+                                Seleccionar
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex pt-6 justify-between">
+                  <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                  <p-button 
+                    label="Next" 
+                    icon="pi pi-arrow-right" 
+                    iconPos="right" 
+                    [disabled]="!selectedProduct"
+                    (onClick)="activateCallback(3)" 
+                  />
+                </div>
+              </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="3">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
+                  >
+                    Contenido del paso 3
+                  </div>
+                </div>
+                <div class="flex pt-6 justify-start">
+                  <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="activateCallback(2)" />
+                </div>
+              </ng-template>
+            </p-step-panel>
+          </p-step-panels>
+        </p-stepper>
       </div>
     </div>
   </div>
+</div>
