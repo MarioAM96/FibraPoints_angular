@@ -12,10 +12,10 @@
       <!-- Sección de bienvenida -->
       <div class="welcome-section" *ngIf="!isVerified">
         <p class="welcome-text">
-          ¡Bienvenido al programa de recompensas de Fibramax! 
+          ¡Bienvenido al programa de recompensas de Fibramax!
           <span class="welcome-description">
-            Descubre los beneficios exclusivos que tenemos para ti. 
-            Consulta tus puntos acumulados ingresando tu número de cédula y comienza 
+            Descubre los beneficios exclusivos que tenemos para ti.
+            Consulta tus puntos acumulados ingresando tu número de cédula y comienza
             a disfrutar de increíbles recompensas.
           </span>
         </p>
@@ -25,24 +25,15 @@
       <div *ngIf="!showVerification && !isVerified" class="search-card">
         <div class="input-section">
           <p-floatlabel variant="on">
-            <p-inputnumber 
-              [(ngModel)]="cedula" 
-              inputId="on_label" 
-              [maxlength]="13"
-              [useGrouping]="false"
-              (onInput)="onInputChange($event)"
-              class="custom-input" />
+            <p-inputnumber [(ngModel)]="cedula" inputId="on_label" [maxlength]="13" [useGrouping]="false"
+              (onInput)="onInputChange($event)" class="custom-input" />
             <label for="on_label">Número de Cédula</label>
           </p-floatlabel>
         </div>
-        
+
         <div class="button-section">
-          <p-button 
-            label="Consultar" 
-            icon="pi pi-check" 
-            [loading]="loading"
-            [disabled]="!cedula || cedula.toString().length < 10"
-            (onClick)="load()" />
+          <p-button label="Consultar" icon="pi pi-check" [loading]="loading"
+            [disabled]="!cedula || cedula.toString().length < 10" (onClick)="load()" />
         </div>
       </div>
 
@@ -53,29 +44,20 @@
           Se ha enviado un código de verificación al correo
           <span class="email-mask">{{maskedEmail}}</span>
         </p>
-        
+
         <div class="code-inputs">
-          <input *ngFor="let i of [0,1,2,3,4,5]" 
-                 type="text" 
-                 maxlength="1"
-                 [(ngModel)]="codeDigits[i]"
-                 (input)="onCodeInput($event, i)"
-                 class="code-digit">
+          <input *ngFor="let i of [0,1,2,3,4,5]" type="text" maxlength="1" [(ngModel)]="codeDigits[i]"
+            (input)="onCodeInput($event, i)" class="code-digit">
         </div>
 
         <div class="resend-section">
-          <button class="resend-button" 
-                  (click)="resendCode()"
-                  [disabled]="loading">
+          <button class="resend-button" (click)="resendCode()" [disabled]="loading">
             Reenviar
           </button>
         </div>
 
         <div class="verify-button-section">
-          <p-button 
-            label="Verificar código" 
-            (onClick)="verifyCode()"
-            [loading]="loading"
+          <p-button label="Verificar código" (onClick)="verifyCode()" [loading]="loading"
             [disabled]="!isCodeComplete()" />
         </div>
       </div>
@@ -93,15 +75,20 @@
               <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
                   <div
-                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                  >
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
                     <label for="direccion">Selecciona una dirección:</label>
-                    <select id="direccion" [(ngModel)]="selectedAddress" (change)="onAddressChange()">
-                      <option *ngFor="let item of clientData" [value]="item.direccion">No. Contrato: {{item.contrato}} - Sector: {{item.direccion}} - Puntos: {{ item.max_actualpoints }}</option>
-                    </select>
+                    <p-dropdown id="direccion" [(ngModel)]="selectedAddress" [options]="clientData"
+                      optionLabel="direccion" optionValue="direccion" placeholder="Seleccione una dirección"
+                      class="w-full md:w-56" (onChange)="onAddressChange()">
+                      <ng-template let-item pTemplate="item">
+                        No. Contrato: {{item.contrato}} - Sector: {{item.direccion}} - Puntos: {{ item.max_actualpoints
+                        }}
+                      </ng-template>
+                    </p-dropdown>
                   </div>
                   <div class="flex pt-6 justify-end">
-                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="onStepActivate(2); activateCallback(2)" />
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                      (onClick)="onStepActivate(2); activateCallback(2)" />
                   </div>
                 </div>
               </ng-template>
@@ -111,24 +98,23 @@
               <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
                   <div
-                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                  >
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
                     <!-- Información de depuración -->
                     <div class="text-center">
                       <p>Información de depuración:</p>
                       <p>Cargando Productos: {{ loadingProducts }}</p>
                       <p>Total de Productos: {{ products.length }}</p>
                     </div>
-            
+
                     <!-- Carga de productos -->
                     <div *ngIf="loadingProducts" class="text-center">
                       <p>Cargando productos...</p>
                     </div>
-                    
+
                     <div *ngIf="!loadingProducts && products.length === 0" class="text-center">
                       <p>No hay productos disponibles.</p>
                     </div>
-                    
+
                     <div *ngIf="!loadingProducts && products.length > 0" class="w-full">
                       <table class="w-full">
                         <thead>
@@ -143,10 +129,7 @@
                             <td>{{ product.nombre_causal }}</td>
                             <td>{{ product.puntos }}</td>
                             <td>
-                              <button 
-                                (click)="selectProduct(product)"
-                                class="p-button p-button-primary"
-                              >
+                              <button (click)="selectProduct(product)" class="p-button p-button-primary">
                                 Seleccionar
                               </button>
                             </td>
@@ -158,13 +141,8 @@
                 </div>
                 <div class="flex pt-6 justify-between">
                   <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
-                  <p-button 
-                    label="Next" 
-                    icon="pi pi-arrow-right" 
-                    iconPos="right" 
-                    [disabled]="!selectedProduct"
-                    (onClick)="activateCallback(3)" 
-                  />
+                  <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!selectedProduct"
+                    (onClick)="activateCallback(3)" />
                 </div>
               </ng-template>
             </p-step-panel>
@@ -173,8 +151,7 @@
               <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
                   <div
-                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                  >
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
                     Contenido del paso 3
                   </div>
                 </div>

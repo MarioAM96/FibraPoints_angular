@@ -7,6 +7,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { ApiService } from '../../services/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { DropdownModule } from 'primeng/dropdown';
 import { StepperModule } from 'primeng/stepper';
 
 @Component({
@@ -22,6 +23,7 @@ import { StepperModule } from 'primeng/stepper';
     FloatLabel,
     HttpClientModule,
     StepperModule,
+    DropdownModule
   ],
   providers: [ApiService],
 })
