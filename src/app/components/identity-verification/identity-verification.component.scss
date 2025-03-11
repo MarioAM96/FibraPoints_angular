@@ -21,7 +21,7 @@
 
 .content-wrapper {
   width: 100%;
-  max-width: 900px; /* Aumentado de 500px a 900px */
+  max-width: 900px;
 }
 
 .card-container {
@@ -37,47 +37,14 @@
 
 .title {
   text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: bold;
   color: var(--secondary-color);
-  margin-bottom: 1.5rem;
-  position: relative;
 }
 
-.title::after {
-  content: '';
-  position: absolute;
-  bottom: -0.75rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 4px;
-  background-color: var(--primary-color);
-}
-
-.client-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  background-color: #f0f4f8;
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.client-info p {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.welcome-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  background-color: #f1f5f9;
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
+.step-header .info-text {
+  font-size: 1rem;
+  color: var(--text-color-secondary);
 }
 
 .search-card {
@@ -85,10 +52,6 @@
   grid-template-columns: 3fr 1fr;
   gap: 1.5rem;
   align-items: center;
-}
-
-.input-section {
-  width: 100%;
 }
 
 .custom-input input {
@@ -126,7 +89,6 @@
   transition: var(--transition);
 }
 
-/* Stepper Styles */
 ::ng-deep .p-stepper {
   width: 100%;
 }
@@ -144,7 +106,6 @@
   padding: 2.5rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .content-wrapper {
     max-width: 100%;
@@ -155,8 +116,7 @@
     padding: 2rem;
   }
 
-  .search-card,
-  .client-info {
+  .search-card {
     grid-template-columns: 1fr;
   }
 
@@ -165,7 +125,6 @@
   }
 }
 
-/* Adicional: Efectos de hover y focus */
 .custom-input input:focus,
 .code-inputs input:focus {
   outline: none;
@@ -173,7 +132,6 @@
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
-/* Animaciones sutiles */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -203,14 +161,9 @@
 }
 
 .step-header h3 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: var(--secondary-color);
-}
-
-.step-header .info-text {
-  font-size: 1rem;
-  color: var(--text-color-secondary);
 }
 
 .step-content {
@@ -226,62 +179,6 @@
   font-size: 1rem;
 }
 
-.dropdown-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.5rem;
-}
-
-.contract-number {
-  font-weight: bold;
-  color: var(--primary-color);
-}
-
-.sector {
-  font-size: 0.9rem;
-  color: var(--text-color-secondary);
-}
-
-.points {
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--secondary-color);
-}
-
-.step-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Contenedor principal del paso */
-.step-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  border-radius: 12px;
-  background-color: #f9fafb;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Header del paso */
-.step-header {
-  text-align: center;
-}
-
-.step-header h3 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--secondary-color);
-}
-
-.step-header .info-text {
-  font-size: 1rem;
-  color: var(--text-color-secondary);
-}
-
-/* Cuadrícula de productos */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -290,7 +187,6 @@
   justify-content: center;
 }
 
-/* Tarjeta del producto */
 .product-card {
   background: white;
   border-radius: 12px;
@@ -309,7 +205,6 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagen del producto */
 .product-image img {
   width: 120px;
   height: 120px;
@@ -317,7 +212,6 @@
   border-radius: 8px;
 }
 
-/* Información del producto */
 .product-info {
   margin-top: 1rem;
   text-align: center;
@@ -335,7 +229,6 @@
   font-weight: 600;
 }
 
-/* Botón de selección */
 .select-button {
   margin-top: auto;
   background: var(--primary-color);
@@ -354,7 +247,6 @@
   cursor: not-allowed;
 }
 
-/* Mensajes de carga y sin productos */
 .loading-container,
 .no-products {
   text-align: center;
@@ -362,11 +254,247 @@
   color: var(--text-color-secondary);
 }
 
-/* Pie del paso */
 .step-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
   padding: 1rem 0;
+}
+
+.client-info {
+  display: flex;
+  width: 100%;
+  background: linear-gradient(135deg, #FE280A 0%, #ff5f40 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: black;
+  box-shadow: 0 10px 20px rgba(254, 40, 10, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.client-info-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+}
+
+.client-name {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.client-name-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: black;
+  font-weight: 600;
+}
+
+.client-name-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: black;
+}
+
+.client-points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.client-points-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  color: black;
+  font-weight: 600;
+}
+
+.client-points-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.client-points-value .points-icon {
+  margin-left: 0.5rem;
+  font-size: 1.8rem;
+  color: #FFA500;
+  text-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+}
+
+
+.welcome-section {
+  background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.welcome-illustration {
+  flex: 0 0 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rewards-svg {
+  max-width: 200px;
+  height: auto;
+}
+
+.welcome-text-container {
+  flex: 1;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.welcome-description {
+  font-size: 1.1rem;
+  color: var(--text-color-secondary);
+  line-height: 1.6;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: var(--primary-color);
+  z-index: 10;
+}
+
+.custom-input-number {
+  width: 100%;
+  padding-left: 45px !important;
+}
+
+.search-button {
+  min-width: 200px;
+}
+
+.search-benefits {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 12px;
+  flex: 1;
+  transition: transform 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-item i {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.benefit-item span {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+}
+
+@media (max-width: 768px) {
+  .welcome-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-benefits {
+    flex-direction: column;
+  }
+}
+
+
+.welcome-illustration {
+  flex: 0 0 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fibramax-logo {
+  max-width: 250px;
+  max-height: 150px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.fibramax-logo:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .fibramax-logo {
+    max-width: 200px;
+    max-height: 120px;
+  }
 }

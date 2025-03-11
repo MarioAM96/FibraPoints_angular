@@ -1,39 +1,54 @@
 <div class="main-container">
   <div class="content-wrapper">
     <div class="card-container">
-      <h2 class="title">FibraPoints</h2>
+      <h2 class="title" *ngIf="isVerified">FibraPoints</h2>
 
       <!-- Información del cliente seleccionada, visible en todo momento -->
       <div *ngIf="selectedClient" class="client-info">
-        <p>Nombre del Cliente: {{ selectedClient.nombre_cliente }}</p>
-        <p>Puntos disponibles: {{ selectedClient.max_actualpoints }}</p>
-      </div>
-
-      <!-- Sección de bienvenida -->
-      <div class="welcome-section" *ngIf="!isVerified">
-        <p class="welcome-text">
-          ¡Bienvenido al programa de recompensas de Fibramax!
-          <span class="welcome-description">
-            Descubre los beneficios exclusivos que tenemos para ti.
-            Consulta tus puntos acumulados ingresando tu número de cédula y comienza
-            a disfrutar de increíbles recompensas.
-          </span>
-        </p>
-      </div>
-
-      <!-- Sección de búsqueda -->
-      <div *ngIf="!showVerification && !isVerified" class="search-card">
-        <div class="input-section">
-          <p-floatlabel variant="on">
-            <p-inputnumber [(ngModel)]="cedula" inputId="on_label" [maxlength]="13" [useGrouping]="false"
-              (onInput)="onInputChange($event)" class="custom-input" />
-            <label for="on_label">Número de Cédula</label>
-          </p-floatlabel>
+        <div class="client-info-content">
+          <div class="client-name">
+            <span class="client-name-label">Nombre del Cliente</span>
+            <span class="client-name-text">{{ selectedClient.nombre_cliente }}</span>
+          </div>
+          <div class="client-points">
+            <span class="client-points-label">Puntos Disponibles</span>
+            <div class="client-points-value">
+              {{ selectedClient.max_actualpoints }}
+            </div>
+          </div>
         </div>
+      </div>
+      
+      <!-- Sección de bienvenida mejorada -->
+      <div class="welcome-section" *ngIf="!isVerified">
+        <div class="welcome-content">
+          <div class="welcome-illustration">
+            <img src="https://fibramax.ec/repositorio_legal/media/img/LOGORGB1.png" alt="FibraMax Logo"
+              class="fibramax-logo" />
+          </div>
+          <div class="welcome-text-container">
+            <h2 class="welcome-title">Bienvenido a FibraPoints</h2>
+            <p class="welcome-description">
+              Descubre un mundo de recompensas exclusivas. Consulta tus puntos acumulados
+              ingresando tu número de cédula y comienza a disfrutar de increíbles beneficios.
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <div class="button-section">
-          <p-button label="Consultar" icon="pi pi-check" [loading]="loading"
-            [disabled]="!cedula || cedula.toString().length < 10" (onClick)="load()" />
+      <!-- Sección de búsqueda mejorada -->
+      <div *ngIf="!showVerification && !isVerified" class="search-section">
+        <div class="search-container">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <i class="pi pi-id-card"></i>
+            </div>
+            <p-inputnumber [(ngModel)]="cedula" inputId="cedula-input" [maxlength]="13" [useGrouping]="false"
+              (onInput)="onInputChange($event)" placeholder="Ingresa tu número de cédula" class="custom-input-number" />
+          </div>
+
+          <p-button label="Consultar Puntos" icon="pi pi-search" [loading]="loading"
+            [disabled]="!cedula || cedula.toString().length < 10" (onClick)="load()" class="search-button" />
         </div>
       </div>
 
@@ -127,13 +142,13 @@
                   <div *ngIf="!loadingProducts && products.length > 0" class="product-grid">
                     <div *ngFor="let product of products" class="product-card" (click)="selectProduct(product)">
                       <div class="product-image">
-                        <img [src]="product.image || 'assets/placeholder.png'" alt="{{ product.nombre_causal }}">
+                        <img [src]="product.image_url || 'assets/placeholder.png'" alt="{{ product.nombre_causal }}">
                       </div>
                       <div class="product-info">
                         <h4 class="product-title">{{ product.nombre_causal }}</h4>
                         <p class="product-points">{{ product.puntos }} Puntos</p>
                       </div>
-                      <button class="select-button" [disabled]="product.puntos > selectedClient.max_actualpoints">
+                      <button class="select-button" [disabled]="product.puntos < selectedClient.max_actualpoints">
                         Seleccionar
                       </button>
                     </div>
@@ -142,7 +157,8 @@
 
                 <!-- Botones organizados en la parte inferior -->
                 <div class="step-footer">
-                  <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                  <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left"
+                    (onClick)="activateCallback(1)" />
                   <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" [disabled]="!selectedProduct"
                     (onClick)="activateCallback(3)" />
                 </div>

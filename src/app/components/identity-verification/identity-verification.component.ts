@@ -20,7 +20,6 @@ import { StepperModule } from 'primeng/stepper';
     FormsModule,
     InputNumber,
     ButtonModule,
-    FloatLabel,
     HttpClientModule,
     StepperModule,
     DropdownModule
