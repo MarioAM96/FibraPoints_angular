@@ -20,8 +20,11 @@ export class ApiService {
     return this.http.post(this.apiUrl + 'verificar-codigo-fibrapoints', payload);
   }
 
-  getProducts(): Observable<any> {
-    return this.http.get(this.apiUrl + 'get-activeproducts/27');
-  }
+  // getProducts(): Observable<any> {
+  //   return this.http.get(this.apiUrl + 'get-activeproducts/27');
+  // }
 
+  getProducts(): Observable<any> {
+    return this.http.get(this.apiUrl + 'obtener-causales/27');
+  }
 }
